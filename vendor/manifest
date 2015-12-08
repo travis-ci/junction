@@ -1,0 +1,68 @@
+{
+	"version": 0,
+	"dependencies": [
+		{
+			"importpath": "code.google.com/p/go-uuid/uuid",
+			"repository": "https://code.google.com/p/go-uuid",
+			"revision": "35bc42037350",
+			"branch": "default",
+			"path": "/uuid"
+		},
+		{
+			"importpath": "github.com/braintree/manners",
+			"repository": "https://github.com/braintree/manners",
+			"revision": "3fdfadabc96863ceec055bd73ab1e80324e72706",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/codegangsta/cli",
+			"repository": "https://github.com/codegangsta/cli",
+			"revision": "0302d3914d2a6ad61404584cdae6e6dbc9c03599",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/davecgh/go-spew/spew",
+			"repository": "https://github.com/davecgh/go-spew",
+			"revision": "5215b55f46b2b919f50a1df0eaa5886afe4e3b3d",
+			"branch": "master",
+			"path": "/spew"
+		},
+		{
+			"importpath": "github.com/gorilla/context",
+			"repository": "https://github.com/gorilla/context",
+			"revision": "1c83b3eabd45b6d76072b66b746c20815fb2872d",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/gorilla/mux",
+			"repository": "https://github.com/gorilla/mux",
+			"revision": "9c068cf16d982f8bd444b8c352acbeec34c4fe5b",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/lib/pq",
+			"repository": "https://github.com/lib/pq",
+			"revision": "83c4f410d0aed80a0f44bac6a576a7f2435791f3",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/pmezard/go-difflib/difflib",
+			"repository": "https://github.com/pmezard/go-difflib",
+			"revision": "d8ed2627bdf02c080bf22230dbb337003b7aba2d",
+			"branch": "master",
+			"path": "/difflib"
+		},
+		{
+			"importpath": "github.com/stretchr/objx",
+			"repository": "https://github.com/stretchr/objx",
+			"revision": "1a9d0bb9f541897e62256577b352fdbc1fb4fd94",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/stretchr/testify",
+			"repository": "https://github.com/stretchr/testify",
+			"revision": "d797d25e0fa6d53be3b1a216d24e868d6a1912ef",
+			"branch": "master"
+		}
+	]
+}

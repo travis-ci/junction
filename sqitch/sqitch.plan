@@ -1,0 +1,7 @@
+%syntax-version=1.0.0
+%project=junction
+%uri=https://github.com/travis-ci/junction
+
+appschema 2015-11-20T21:45:30Z Henrik Hodne <henrik@hodne.io> # Add schema for all Junction objects
+workers [appschema] 2015-11-20T21:51:26Z Henrik Hodne <henrik@hodne.io> # Create table to track workers
+assignments [workers appschema] 2015-11-21T07:08:07Z Henrik Hodne <henrik@hodne.io> # Create table to track job assignments
