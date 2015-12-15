@@ -21,6 +21,12 @@ func TestPostgresWorkerRepository(t *testing.T) {
 	runWorkerRepositoryTests(t, pwr)
 }
 
+func TestMapWorkerRepository(t *testing.T) {
+	repo := &MapWorkerRepository{workers: make(map[string]Worker)}
+
+	runWorkerRepositoryTests(t, repo)
+}
+
 func runWorkerRepositoryTests(t *testing.T, repo WorkerRepository) {
 	Convey("Given a worker that has been created", t, func() {
 		storedWorker := Worker{
