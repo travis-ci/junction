@@ -30,7 +30,7 @@ func runAssignmentRepositoryTests(t *testing.T, repo AssignmentRepository, worke
 			LastHeartbeat: nil,
 			MaxJobCount:   10,
 		}
-		err := workerRepo.Store(worker)
+		err := workerRepo.Create(worker)
 		So(err, ShouldBeNil)
 
 		Convey("Given an assignment that has been created", func() {

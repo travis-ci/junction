@@ -25,6 +25,6 @@ type WorkerHeartbeatHandler struct {
 func (whh *WorkerHeartbeatHandler) Heartbeat(w Worker, assignments []string) ([]string, error) {
 	now := time.Now()
 	w.LastHeartbeat = &now
-	err := whh.repo.Store(w)
+	err := whh.repo.Update(w)
 	return []string{}, err
 }

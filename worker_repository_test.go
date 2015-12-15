@@ -22,7 +22,7 @@ func TestPostgresWorkerRepository(t *testing.T) {
 }
 
 func runWorkerRepositoryTests(t *testing.T, repo WorkerRepository) {
-	Convey("Given a worker that has been stored", t, func() {
+	Convey("Given a worker that has been created", t, func() {
 		storedWorker := Worker{
 			ID:            uuid.NewRandom(),
 			Queue:         "test-queue",
@@ -30,7 +30,7 @@ func runWorkerRepositoryTests(t *testing.T, repo WorkerRepository) {
 			MaxJobCount:   10,
 		}
 
-		err := repo.Store(storedWorker)
+		err := repo.Create(storedWorker)
 		So(err, ShouldBeNil)
 
 		Convey("When fetching a worker with the same ID", func() {
@@ -42,9 +42,18 @@ func runWorkerRepositoryTests(t *testing.T, repo WorkerRepository) {
 			})
 		})
 
-		Convey("When storing a worker with the same ID", func() {
+		Convey("When creating a worker with the same ID", func() {
 			storedWorker.MaxJobCount = 15
-			err := repo.Store(storedWorker)
+			err := repo.Create(storedWorker)
+
+			Convey("Then an error should be returned", func() {
+				So(err, ShouldNotBeNil)
+			})
+		})
+
+		Convey("When updating the worker", func() {
+			storedWorker.MaxJobCount = 15
+			err := repo.Update(storedWorker)
 			So(err, ShouldBeNil)
 
 			Convey("Then fetching the worker should return the updated attributes", func() {
@@ -75,7 +84,7 @@ func runWorkerRepositoryTests(t *testing.T, repo WorkerRepository) {
 			MaxJobCount:   10,
 		}
 
-		err := repo.Store(storedWorker)
+		err := repo.Create(storedWorker)
 		So(err, ShouldBeNil)
 
 		Convey("When fetching the worker", func() {

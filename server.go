@@ -65,7 +65,7 @@ func (srv *server) handleWorkersPost(w http.ResponseWriter, req *http.Request) {
 		MaxJobCount: parsedRequest.MaxJobCount,
 	}
 
-	err = srv.workerRepo.Store(worker)
+	err = srv.workerRepo.Create(worker)
 	if err != nil {
 		// TODO: Send to Sentry
 		log.Printf("error storing worker: %v", err)
@@ -117,7 +117,7 @@ func (srv *server) handleWorkersHeartbeat(w http.ResponseWriter, req *http.Reque
 	now := time.Now()
 	worker.LastHeartbeat = &now
 
-	err = srv.workerRepo.Store(worker)
+	err = srv.workerRepo.Update(worker)
 	if err != nil {
 		log.Printf("error storing worker: %v", err)
 		w.WriteHeader(http.StatusInternalServerError)
