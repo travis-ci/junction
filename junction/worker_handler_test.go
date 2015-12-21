@@ -10,11 +10,15 @@ import (
 func TestWorkerHandlerCreate(t *testing.T) {
 	core := TestCore(t)
 
+	_, err := core.WorkerHandler.Create("invalid-token", "test-queue", 10, nil)
+	require.Error(t, err)
+	require.Equal(t, err, ErrAuthenticationError)
+
 	id, err := core.WorkerHandler.Create("worker-token-1", "test-queue", 10, nil)
-	require.Nil(t, err)
+	require.NoError(t, err)
 
 	worker, err := core.database.Get(id)
-	require.Nil(t, err)
+	require.NoError(t, err)
 	require.Equal(t, database.Worker{
 		ID:          id,
 		Queue:       "test-queue",

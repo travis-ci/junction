@@ -29,6 +29,28 @@ func NewPostgres(config *PostgresConfig) (*Postgres, error) {
 	return &Postgres{db: db}, nil
 }
 
+// List is used to list all the workers in the database
+func (db *Postgres) List() ([]Worker, error) {
+	var workers []Worker
+
+	rows, err := db.db.Query(`SELECT id, queue, max_job_count FROM junction.workers`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var worker Worker
+		err := rows.Scan(&worker.ID, &worker.Queue, &worker.MaxJobCount)
+		if err != nil {
+			return nil, err
+		}
+		workers = append(workers, worker)
+	}
+
+	return workers, nil
+}
+
 // Create is used to store a new worker in the database.
 func (db *Postgres) Create(worker Worker) error {
 	_, err := db.db.Exec(

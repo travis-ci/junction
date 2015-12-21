@@ -11,6 +11,7 @@ var (
 
 type AuthService struct {
 	workerTokens []string
+	adminTokens  []string
 }
 
 // AuthenticateWorker returns true if the given token is a valid token for a
@@ -18,6 +19,18 @@ type AuthService struct {
 func (as *AuthService) AuthenticateWorker(token string) bool {
 	for _, workerToken := range as.workerTokens {
 		if workerToken == token {
+			return true
+		}
+	}
+
+	return false
+}
+
+// AuthenticateAdmin returns true if the given token is a valid token for an
+// administrator.
+func (as *AuthService) AuthenticateAdmin(token string) bool {
+	for _, adminToken := range as.adminTokens {
+		if adminToken == token {
 			return true
 		}
 	}

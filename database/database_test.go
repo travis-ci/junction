@@ -28,6 +28,16 @@ func testDatabase(t *testing.T, db Database) {
 	err = db.Create(worker)
 	require.NotNil(t, err)
 
+	// Create a new worker with a different ID
+	worker2 := Worker{
+		ID:          "87654321-1234-4321-abcd-0123456789ab",
+		Queue:       "test-queue",
+		MaxJobCount: 10,
+		Attributes:  nil,
+	}
+	err = db.Create(worker2)
+	require.Nil(t, err)
+
 	// Retrieve the stored worker
 	fetchedWorker, err := db.Get(worker.ID)
 	require.Nil(t, err)
@@ -42,6 +52,17 @@ func testDatabase(t *testing.T, db Database) {
 	fetchedWorker, err = db.Get(workerID)
 	require.Nil(t, err)
 	require.Equal(t, worker, fetchedWorker)
+
+	// Both created workers is returned in list of workers
+	workers, err := db.List()
+	require.Nil(t, err)
+	var workerIDs []string
+	for _, worker := range workers {
+		workerIDs = append(workerIDs, worker.ID)
+	}
+	require.Len(t, workerIDs, 2)
+	require.Contains(t, workerIDs, worker.ID)
+	require.Contains(t, workerIDs, worker2.ID)
 
 	// Delete a worker
 	err = db.Delete(worker.ID)

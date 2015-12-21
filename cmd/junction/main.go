@@ -36,6 +36,11 @@ func main() {
 			Usage:  "List of tokens to use for workers",
 			EnvVar: "JUNCTION_WORKER_TOKENS",
 		},
+		cli.StringSliceFlag{
+			Name:   "admin-token",
+			Usage:  "List of tokens to use for admins",
+			EnvVar: "JUNCTION_ADMIN_TOKENS",
+		},
 		cli.StringFlag{
 			Name:   "database-url",
 			Usage:  "URL to Postgres database to connect to",
@@ -64,6 +69,7 @@ func runJunction(c *cli.Context) {
 	coreConfig := &junction.CoreConfig{
 		Database:     database,
 		WorkerTokens: c.StringSlice("worker-token"),
+		AdminTokens:  c.StringSlice("admin-token"),
 	}
 
 	core, err := junction.NewCore(coreConfig)

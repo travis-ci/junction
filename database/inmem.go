@@ -13,6 +13,17 @@ func NewInMem() *InMem {
 	return &InMem{workers: make(map[string]Worker)}
 }
 
+// List is used to list all the workers in the database
+func (db *InMem) List() ([]Worker, error) {
+	var workers []Worker
+
+	for _, worker := range db.workers {
+		workers = append(workers, worker)
+	}
+
+	return workers, nil
+}
+
 // Create is used to store a new worker in the database.
 func (db *InMem) Create(worker Worker) error {
 	_, ok := db.workers[worker.ID]

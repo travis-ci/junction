@@ -11,6 +11,7 @@ import (
 func TestCore(t *testing.T) *Core {
 	core, err := NewCore(&CoreConfig{
 		Database:     database.NewInMem(),
+		AdminTokens:  []string{"admin-token-1"},
 		WorkerTokens: []string{"worker-token-1"},
 	})
 	require.Nil(t, err)

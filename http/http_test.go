@@ -13,6 +13,10 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func testHttpGet(t *testing.T, token string, addr string) *http.Response {
+	return testHttpData(t, "GET", token, addr, nil)
+}
+
 func testHttpPost(t *testing.T, token string, addr string, body interface{}) *http.Response {
 	return testHttpData(t, "POST", token, addr, body)
 }

@@ -7,6 +7,30 @@ import (
 	"github.com/travis-ci/junction/junction"
 )
 
+func TestWorkers_get(t *testing.T) {
+	core := junction.TestCore(t)
+	ln, addr := TestServer(t, core)
+	defer ln.Close()
+
+	id, err := core.WorkerHandler.Create("worker-token-1", "test-queue", 10, nil)
+	require.NoError(t, err)
+
+	resp := testHttpGet(t, "admin-token-1", addr+"/workers")
+
+	var actual map[string]interface{}
+	testResponseStatus(t, resp, 200)
+	testResponseBody(t, resp, &actual)
+	require.Contains(t, actual, "workers")
+
+	require.Equal(t, []interface{}{
+		map[string]interface{}{
+			"id":            id,
+			"queue":         "test-queue",
+			"max-job-count": float64(10),
+		},
+	}, actual["workers"])
+}
+
 func TestWorkers_post(t *testing.T) {
 	core := junction.TestCore(t)
 	ln, addr := TestServer(t, core)
