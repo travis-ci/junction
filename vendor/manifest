@@ -17,7 +17,7 @@
 		{
 			"importpath": "github.com/codegangsta/cli",
 			"repository": "https://github.com/codegangsta/cli",
-			"revision": "0302d3914d2a6ad61404584cdae6e6dbc9c03599",
+			"revision": "b5232bb2934f606f9f27a1305f1eea224e8e8b88",
 			"branch": "master"
 		},
 		{
@@ -37,6 +37,18 @@
 			"importpath": "github.com/gorilla/mux",
 			"repository": "https://github.com/gorilla/mux",
 			"revision": "9c068cf16d982f8bd444b8c352acbeec34c4fe5b",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/hashicorp/go-cleanhttp",
+			"repository": "https://github.com/hashicorp/go-cleanhttp",
+			"revision": "ce617e79981a8fff618bb643d155133a8f38db96",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/hashicorp/go-uuid",
+			"repository": "https://github.com/hashicorp/go-uuid",
+			"revision": "2d537aea09f39d27f9aa33092154c51ebe277486",
 			"branch": "master"
 		},
 		{
@@ -63,6 +75,13 @@
 			"repository": "https://github.com/stretchr/testify",
 			"revision": "d797d25e0fa6d53be3b1a216d24e868d6a1912ef",
 			"branch": "master"
+		},
+		{
+			"importpath": "golang.org/x/net/http2/hpack",
+			"repository": "https://go.googlesource.com/net",
+			"revision": "68a055e15f0ce90989da5564fd947fb72ce67513",
+			"branch": "master",
+			"path": "/http2/hpack"
 		}
 	]
 }

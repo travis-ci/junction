@@ -1,24 +1,40 @@
 package main
 
 import (
+	"log"
+	"net"
+	"net/http"
 	"os"
 
 	"github.com/codegangsta/cli"
-	"github.com/travis-ci/junction"
+	"github.com/travis-ci/junction/database"
+	junctionhttp "github.com/travis-ci/junction/http"
+	"github.com/travis-ci/junction/junction"
 )
 
 func main() {
 	app := cli.NewApp()
 	app.Name = "junction"
-	app.Action = action
+	app.Usage = "Start the Junction HTTP server"
+	app.Action = runJunction
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
-			Name: "addr",
+			Name:  "addr",
+			Usage: "TCP address to listen on",
 			Value: func() string {
-				return ":" + os.Getenv("PORT")
+				v := ":" + os.Getenv("PORT")
+				if v == ":" {
+					// Bind to a random port
+					v = ":0"
+				}
+				return v
 			}(),
-			Usage:  "host:port for HTTP server to bind to",
-			EnvVar: "JUNCTION_ADDR,ADDR",
+			EnvVar: "JUNCTION_ADDR",
+		},
+		cli.StringSliceFlag{
+			Name:   "worker-token",
+			Usage:  "List of tokens to use for workers",
+			EnvVar: "JUNCTION_WORKER_TOKENS",
 		},
 		cli.StringFlag{
 			Name:   "database-url",
@@ -30,11 +46,35 @@ func main() {
 	app.Run(os.Args)
 }
 
-func action(c *cli.Context) {
-	cfg := &junction.Config{
-		Addr:        c.String("addr"),
-		DatabaseURL: c.String("database-url"),
+func runJunction(c *cli.Context) {
+	database, err := database.NewPostgres(c.String("database-url"))
+	if err != nil {
+		log.Fatalf("Error initializing database: %s", err)
 	}
 
-	junction.Main(cfg)
+	coreConfig := &junction.CoreConfig{
+		Database:     database,
+		WorkerTokens: c.StringSlice("worker-token"),
+	}
+
+	core, err := junction.NewCore(coreConfig)
+	if err != nil {
+		log.Fatalf("Error initializing core: %s", err)
+	}
+
+	server := &http.Server{
+		Handler: junctionhttp.Handler(core),
+	}
+
+	listener, err := net.Listen("tcp", c.String("addr"))
+	if err != nil {
+		log.Fatalf("Error listening on TCP: %s", err)
+	}
+
+	log.Printf("Listening on %s", listener.Addr().String())
+
+	err = server.Serve(listener)
+	if err != nil {
+		log.Fatalf("Error serving on HTTP: %s", err)
+	}
 }
