@@ -14,5 +14,5 @@ func (h *AdminHandler) ListWorkers(token string) ([]database.Worker, error) {
 		return nil, ErrAuthenticationError
 	}
 
-	return h.database.List()
+	return h.database.ListWorkers()
 }

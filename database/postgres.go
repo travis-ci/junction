@@ -29,8 +29,8 @@ func NewPostgres(config *PostgresConfig) (*Postgres, error) {
 	return &Postgres{db: db}, nil
 }
 
-// List is used to list all the workers in the database
-func (db *Postgres) List() ([]Worker, error) {
+// ListWorkers is used to list all the workers in the database
+func (db *Postgres) ListWorkers() ([]Worker, error) {
 	var workers []Worker
 
 	rows, err := db.db.Query(`SELECT id, queue, max_job_count FROM junction.workers`)
@@ -51,8 +51,8 @@ func (db *Postgres) List() ([]Worker, error) {
 	return workers, nil
 }
 
-// Create is used to store a new worker in the database.
-func (db *Postgres) Create(worker Worker) error {
+// CreateWorker is used to store a new worker in the database.
+func (db *Postgres) CreateWorker(worker Worker) error {
 	_, err := db.db.Exec(
 		`INSERT INTO junction.workers (id, queue, max_job_count, created_at) VALUES ($1, $2, $3, NOW())`,
 		worker.ID,
@@ -63,8 +63,8 @@ func (db *Postgres) Create(worker Worker) error {
 	return err
 }
 
-// Get is used to retrieve a worker that was previously stored in the database.
-func (db *Postgres) Get(workerID string) (Worker, error) {
+// GetWorker is used to retrieve a worker that was previously stored in the database.
+func (db *Postgres) GetWorker(workerID string) (Worker, error) {
 	worker := Worker{ID: workerID}
 
 	err := db.db.QueryRow(
@@ -81,8 +81,8 @@ func (db *Postgres) Get(workerID string) (Worker, error) {
 	return worker, nil
 }
 
-// Update is used to update a previously stored worker in the database.
-func (db *Postgres) Update(worker Worker) error {
+// UpdateWorker is used to update a previously stored worker in the database.
+func (db *Postgres) UpdateWorker(worker Worker) error {
 	_, err := db.db.Exec(
 		`UPDATE junction.workers SET queue = $2, max_job_count = $3 WHERE id = $1`,
 		worker.ID,
@@ -93,8 +93,8 @@ func (db *Postgres) Update(worker Worker) error {
 	return err
 }
 
-// Delete is used to remove a worker from the database.
-func (db *Postgres) Delete(workerID string) error {
+// DeleteWorker is used to remove a worker from the database.
+func (db *Postgres) DeleteWorker(workerID string) error {
 	_, err := db.db.Exec(
 		`DELETE FROM junction.workers WHERE id = $1`,
 		workerID,

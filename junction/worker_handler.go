@@ -25,7 +25,7 @@ func (h *WorkerHandler) Create(token string, queue string, maxJobCount int, attr
 		Attributes:  attributes,
 	}
 
-	err := h.database.Create(worker)
+	err := h.database.CreateWorker(worker)
 	if err != nil {
 		return "", err
 	}

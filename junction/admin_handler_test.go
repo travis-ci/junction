@@ -25,7 +25,7 @@ func TestAdminHandlerListWorkers(t *testing.T) {
 		MaxJobCount: 10,
 	}
 
-	err = core.database.Create(worker)
+	err = core.database.CreateWorker(worker)
 	require.NoError(t, err)
 
 	workers, err = core.AdminHandler.ListWorkers("admin-token-1")

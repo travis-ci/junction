@@ -17,7 +17,7 @@ func TestWorkerHandlerCreate(t *testing.T) {
 	id, err := core.WorkerHandler.Create("worker-token-1", "test-queue", 10, nil)
 	require.NoError(t, err)
 
-	worker, err := core.database.Get(id)
+	worker, err := core.database.GetWorker(id)
 	require.NoError(t, err)
 	require.Equal(t, database.Worker{
 		ID:          id,

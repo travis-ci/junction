@@ -10,7 +10,7 @@ func testDatabase(t *testing.T, db Database) {
 	workerID := "12345678-1234-4321-abcd-0123456789ab"
 
 	// Worker shouldn't exist to begin with
-	worker, err := db.Get(workerID)
+	worker, err := db.GetWorker(workerID)
 	require.Zero(t, worker)
 	require.NotNil(t, err)
 
@@ -21,11 +21,11 @@ func testDatabase(t *testing.T, db Database) {
 		MaxJobCount: 10,
 		Attributes:  nil,
 	}
-	err = db.Create(worker)
+	err = db.CreateWorker(worker)
 	require.Nil(t, err)
 
 	// Attempt to create a new worker with the same ID
-	err = db.Create(worker)
+	err = db.CreateWorker(worker)
 	require.NotNil(t, err)
 
 	// Create a new worker with a different ID
@@ -35,26 +35,26 @@ func testDatabase(t *testing.T, db Database) {
 		MaxJobCount: 10,
 		Attributes:  nil,
 	}
-	err = db.Create(worker2)
+	err = db.CreateWorker(worker2)
 	require.Nil(t, err)
 
 	// Retrieve the stored worker
-	fetchedWorker, err := db.Get(worker.ID)
+	fetchedWorker, err := db.GetWorker(worker.ID)
 	require.Nil(t, err)
 	require.Equal(t, worker, fetchedWorker)
 
 	// Update the stored worker
 	worker.Queue = "new-queue"
-	err = db.Update(worker)
+	err = db.UpdateWorker(worker)
 	require.Nil(t, err)
 
 	// Check that attributes were updated
-	fetchedWorker, err = db.Get(workerID)
+	fetchedWorker, err = db.GetWorker(workerID)
 	require.Nil(t, err)
 	require.Equal(t, worker, fetchedWorker)
 
 	// Both created workers is returned in list of workers
-	workers, err := db.List()
+	workers, err := db.ListWorkers()
 	require.Nil(t, err)
 	var workerIDs []string
 	for _, worker := range workers {
@@ -65,11 +65,11 @@ func testDatabase(t *testing.T, db Database) {
 	require.Contains(t, workerIDs, worker2.ID)
 
 	// Delete a worker
-	err = db.Delete(worker.ID)
+	err = db.DeleteWorker(worker.ID)
 	require.Nil(t, err)
 
 	// Check that we can no longer fetch worker
-	fetchedWorker, err = db.Get(workerID)
+	fetchedWorker, err = db.GetWorker(workerID)
 	require.NotNil(t, err)
 	require.Zero(t, fetchedWorker)
 }
