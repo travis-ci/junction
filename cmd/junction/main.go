@@ -41,13 +41,22 @@ func main() {
 			Usage:  "URL to Postgres database to connect to",
 			EnvVar: "JUNCTION_DATABASE_URL,DATABASE_URL",
 		},
+		cli.IntFlag{
+			Name:   "database-max-pool-size",
+			Usage:  "The maximum number of open connection to keep for the Postgres database",
+			Value:  10,
+			EnvVar: "JUNCTION_DATABASE_MAX_POOL_SIZE",
+		},
 	}
 
 	app.Run(os.Args)
 }
 
 func runJunction(c *cli.Context) {
-	database, err := database.NewPostgres(c.String("database-url"))
+	database, err := database.NewPostgres(&database.PostgresConfig{
+		URL:          c.String("database-url"),
+		MaxOpenConns: c.Int("database-max-pool-size"),
+	})
 	if err != nil {
 		log.Fatalf("Error initializing database: %s", err)
 	}

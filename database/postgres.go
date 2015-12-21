@@ -11,13 +11,20 @@ type Postgres struct {
 	db *sql.DB
 }
 
+type PostgresConfig struct {
+	URL          string
+	MaxOpenConns int
+}
+
 // NewPostgres connects to a database given a database URL, and creates a new
 // Postgres instance backed by that database.
-func NewPostgres(databaseURL string) (*Postgres, error) {
-	db, err := sql.Open("postgres", databaseURL)
+func NewPostgres(config *PostgresConfig) (*Postgres, error) {
+	db, err := sql.Open("postgres", config.URL)
 	if err != nil {
 		return nil, err
 	}
+
+	db.SetMaxOpenConns(config.MaxOpenConns)
 
 	return &Postgres{db: db}, nil
 }
