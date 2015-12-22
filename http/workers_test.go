@@ -27,6 +27,7 @@ func TestWorkers_get(t *testing.T) {
 			"id":            id,
 			"queue":         "test-queue",
 			"max-job-count": float64(10),
+			"attributes":    nil,
 		},
 	}, actual["workers"])
 }
@@ -39,6 +40,9 @@ func TestWorkers_post(t *testing.T) {
 	resp := testHttpPost(t, "worker-token-1", addr+"/workers", map[string]interface{}{
 		"queue":         "test-queue",
 		"max-job-count": 10,
+		"attributes": map[string]string{
+			"version": "1.0.0",
+		},
 	})
 
 	var actual map[string]interface{}

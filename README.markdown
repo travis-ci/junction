@@ -2,6 +2,24 @@
 
 **WARNING** This is _very_ much a work in progress. Here be dragons, ghosts, skulls, skeletons, and all sorts of terrifying creatures.
 
+## Database
+
+Install [Sqitch](http://sqitch.org/), and do the following to migrate:
+
+1. `cd sqitch`
+2. `sqitch deploy`
+
+By default it deploys to a database named `junction_test` on localhost. This
+database is meant to be very ephemeral and the tests will clear out anything
+from it whenever run.
+
+The database must be postgres, and the "hstore" extension must be enabled. If
+you don't have it enabled yet:
+
+```SQL
+CREATE EXTENSION "hstore";
+```
+
 ## TODO
 
 Plans and other things:

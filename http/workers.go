@@ -39,6 +39,7 @@ func handleWorkersGet(core *junction.Core, w http.ResponseWriter, r *http.Reques
 			ID:          worker.ID,
 			Queue:       worker.Queue,
 			MaxJobCount: worker.MaxJobCount,
+			Attributes:  worker.Attributes,
 		})
 	}
 
@@ -60,7 +61,7 @@ func handleWorkersPost(core *junction.Core, w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	id, err := core.WorkerHandler.Create(token, req.Queue, req.MaxJobCount, nil)
+	id, err := core.WorkerHandler.Create(token, req.Queue, req.MaxJobCount, req.Attributes)
 	if err != nil {
 		respondError(w, http.StatusInternalServerError, err)
 		return
@@ -69,14 +70,16 @@ func handleWorkersPost(core *junction.Core, w http.ResponseWriter, r *http.Reque
 }
 
 type WorkerCreateRequest struct {
-	Queue       string `json:"queue"`
-	MaxJobCount int    `json:"max-job-count"`
+	Queue       string            `json:"queue"`
+	MaxJobCount int               `json:"max-job-count"`
+	Attributes  map[string]string `json:"attributes"`
 }
 
 type WorkerListResponseWorker struct {
-	ID          string `json:"id"`
-	Queue       string `json:"queue"`
-	MaxJobCount int    `json:"max-job-count"`
+	ID          string            `json:"id"`
+	Queue       string            `json:"queue"`
+	MaxJobCount int               `json:"max-job-count"`
+	Attributes  map[string]string `json:"attributes"`
 }
 
 type WorkerListResponse struct {

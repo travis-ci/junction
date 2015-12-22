@@ -19,7 +19,7 @@ func testDatabase(t *testing.T, db Database) {
 		ID:          workerID,
 		Queue:       "test-queue",
 		MaxJobCount: 10,
-		Attributes:  nil,
+		Attributes:  map[string]string{"version": "1.0.0"},
 	}
 	err = db.CreateWorker(worker)
 	require.Nil(t, err)
