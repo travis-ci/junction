@@ -59,6 +59,9 @@ func (db *Postgres) ListWorkers() ([]Worker, error) {
 
 		workers = append(workers, worker)
 	}
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
 
 	return workers, nil
 }
